@@ -35,13 +35,6 @@ on:
   watch:
 #    types: started
 
-
-env: 
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-  SCKEY: ${{ secrets.SCKEY }}
-  GITHUB_RELEASE: https://github.com/281677160/Actions-OpenWrt/releases
-  TZ: Asia/Shanghai
-
 jobs: 
   build:
     runs-on: ubuntu-18.04
@@ -74,13 +67,6 @@ jobs:
         echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> $GITHUB_ENV
         echo "SERVERCHAN_SCKEY=${SERVERCHAN_SCKEY}" >> $GITHUB_ENV
     
-    - name: 微信通知
-      uses: emon100/Action-Serverchan@master
-      if: env.SERVERCHAN_SCKEY == 'true'
-      with:
-        SCKEY: ${{ secrets.SCKEY }}
-        text: 开始编译${{matrix.target}}啦
-        desp: 主人您设置要编译的[${{ env.WXFB_MESSAGE }}]固件正在努力耕耘中......
     
     - name: 开始安装编译所需系统
       env:
@@ -233,11 +219,8 @@ jobs:
             
             🎉 [ ${{ env.WXFB_MESSAGE }} ]固件下载 ✨
             
-            💐 奶牛快传(国内高速🚀下载)： ${{ env.COWTRANSFER_URL }}
-            
             ⛄ WeTransfer(国外高速🚀下载)： ${{ env.WETRANSFER_URL }}
-            
-            🌴 链接有效期为7天，无需注册直接下载 🐤
+
         files: ${{ env.FIRMWARE }}/*
 
     - name: 删除上传在github空间的老固件
@@ -261,7 +244,7 @@ jobs:
       if: steps.organizer.outputs.status == 'success' && env.SERVERCHAN_SCKEY == 'true'
       with:
         SCKEY: ${{ secrets.SCKEY }}
-        text: 恭喜主人${{matrix.target}}固件编译成功！
+        text: 恭喜Lyonji${{matrix.target}}固件编译成功！
         desp: 我亲爱的主人您要编译的${{ env.WXFB_MESSAGE }}固件成功完成了！
               
               
@@ -269,9 +252,6 @@ jobs:
               
               
               发布地址：${{ env.GITHUB_RELEASE }}
-              
-              
-              奶牛快传：${{ env.COWTRANSFER_URL }}
               
               
               WeTransfer：${{ env.WETRANSFER_URL }}
